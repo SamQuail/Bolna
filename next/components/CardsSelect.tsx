@@ -1,17 +1,23 @@
 "use client"
 import { useState } from "react";
 import { Button } from "./ui/button";
+import { Status } from "@/common/types";
+import Link from "next/link";
 
+interface ICardsSelect {
+  language: Status | null
+}
 
-const CardsSelect = () => {
-    const [activeSection, setActiveSection] = useState(null);
+const CardsSelect = ({language}: ICardsSelect) => {
+    const [activeSection, setActiveSection] = useState<number | null>(null);
 
     const sections = [
-      { title: 'Learn symbols', description: 'Understand the symbols used in this language' },
-      { title: 'Learn words', description: 'Build your vocabulary with key words' },
-      { title: 'Grammar rules', description: 'Learn the rules that govern sentence structure' },
-      { title: 'Sentences', description: 'Learn how to form meaningful sentences' },
+      { title: 'Learn symbols', description: 'Understand the symbols used in this language', link: "/symbols" },
+      { title: 'Learn words', description: 'Build your vocabulary with key words',link: "/symbols" },
+      { title: 'Grammar rules', description: 'Learn the rules that govern sentence structure',link: "/symbols" },
+      { title: 'Sentences', description: 'Learn how to form meaningful sentences',link: "/symbols" },
     ]
+
     return (
         <div className="flex flex-col gap-8 justify-center items-center text-center py-12 ">
         {/* Main Heading */}
@@ -28,7 +34,13 @@ const CardsSelect = () => {
               onMouseEnter={() => setActiveSection(index)}
               onMouseLeave={() => setActiveSection(null)}
             >
-              {/* ShadCN Button with Custom Green Color */}
+             <Link href={{
+              pathname: `${section.link}`,
+              query: {
+                language: `${language?.value}`
+              }
+
+             }}>
               <Button
                 className={`px-8 py-4 rounded-full text-white transition-all duration-300 ${
                   activeSection === index
@@ -38,20 +50,14 @@ const CardsSelect = () => {
               >
                 {section.title}
               </Button>
-  
-              {/* Description Pop-Up */}
-              {activeSection === index && (
-                <div className="absolute top-12 left-1/2 transform -translate-x-1/2 bg-white text-gray-800 p-4 rounded-lg shadow-lg max-w-xs">
-                  <p>{section.description}</p>
-                </div>
-              )}
+              </Link>
             </div>
           ))}
         </div>
   
         {/* Bottom Text */}
         <div className="text-lg mt-8 text-gray-700">
-          Hover over the pills to explore different sections ✨
+          Click a section to start learning ✨
         </div>
       </div>
     );

@@ -12,6 +12,15 @@ export default {
 		fontFamily: {
 			serif: ['Merriweather', 'serif'], 
 		  },
+		  perspective: {
+			DEFAULT: "1000px",
+		  },
+		  transformStyle: {
+			"3d": "preserve-3d",
+		  },
+		  backfaceVisibility: {
+			hidden: "hidden",
+		  },
   		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',

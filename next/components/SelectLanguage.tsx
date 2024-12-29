@@ -16,46 +16,45 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
+import { Status } from "@/common/types"
 
-const SelectLanguage = () => {
-    type Status = {
-        value: string
-        label: string
-      }
+interface ISelectLanguage {
+  setValue: React.Dispatch<React.SetStateAction<Status | null>>;
+  value: Status | null;
+}
+
+const SelectLanguage: React.FC<ISelectLanguage> = ({setValue, value}) => {
+
     //const languages = ['Hindi', 'Spanish', 'French', 'German'];
     const statuses = [
         {
-          value: "backlog",
-          label: "Backlog",
+          value: "Hindi",
+          label: "Hindi",
         },
         {
-          value: "todo",
-          label: "Todo",
+          value: "Arabic",
+          label: "Arabic",
         },
         {
-          value: "in progress",
-          label: "In Progress",
+          value: "Korean",
+          label: "Korean",
         },
         {
-          value: "done",
-          label: "Done",
-        },
-        {
-          value: "canceled",
-          label: "Canceled",
+          value: "Japanese",
+          label: "Japanese",
         },
       ]
       const [open, setOpen] = React.useState(false)
-      const [selectedStatus, setSelectedStatus] = React.useState<Status | null>(
-        null
-      )
+      React.useEffect(() => {
+        console.log(value)
+      },[value])
     return (
         <div className="flex items-center space-x-4 border-solid ">
         <p className="text-sm text-muted-foreground">English to</p>
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
             <Button variant="outline" className="w-[150px] justify-start">
-              {selectedStatus ? <>{selectedStatus.label}</> : <> Set language</>}
+              {value ? <>{value.label}</> : <> Set language</>}
             </Button>
           </PopoverTrigger>
           <PopoverContent className="p-0" side="right" align="start">
@@ -69,8 +68,8 @@ const SelectLanguage = () => {
                       key={status.value}
                       value={status.value}
                       onSelect={(value) => {
-                        setSelectedStatus(
-                          statuses.find((priority) => priority.value === value) ||
+                        setValue(
+                          statuses.find((lang) => lang.value === value) ||
                             null
                         )
                         setOpen(false)
